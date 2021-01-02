@@ -10,9 +10,10 @@ import javax.persistence.PersistenceContext;
 import java.util.List;
 
 @Repository
-@RequiredArgsConstructor
+@RequiredArgsConstructor//아래에서 Autowired와 final을 써주니까 이게 가능
 public class MemberRepository {
 
+    //원래 스프링부트 JPA가 없으면 @Autowired를 못쓰고 @PersistenceContext를 써야한다.
     @Autowired //스프링부트 라이브러리를 사용하면 @PersistenceContext를 @Autowired로 대체가능하다
     private final EntityManager em;
 
