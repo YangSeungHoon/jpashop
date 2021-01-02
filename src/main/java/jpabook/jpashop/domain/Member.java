@@ -18,9 +18,9 @@ public class Member {
 
     private String name;
 
-    @Embedded
+    @Embedded //값 타입을 사용하는 곳에 표시
     private Address address;
 
-    @OneToMany(mappedBy = "member")
+    @OneToMany(mappedBy = "member")// Order테이블에있는 Member필드에의해서 맵핑 되었다.
     private List<Order> orders = new ArrayList<>();
 }

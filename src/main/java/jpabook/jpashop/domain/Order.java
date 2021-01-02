@@ -18,7 +18,7 @@ public class Order {
     private Long id;
 
     @ManyToOne(fetch= FetchType.LAZY)
-    @JoinColumn(name="member_id")
+    @JoinColumn(name="member_id") //이 녀석이 주인이다.
     private Member member;
 
 
