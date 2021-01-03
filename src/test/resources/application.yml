@@ -1,6 +1,6 @@
 #spring:
 #  datasource:
-#    url: jdbc:h2:tcp://localhost/~/jpashop
+#    url: jdbc:h2:mem:test 사실 스프링부트는 이거 전부 없으면 알아서 in-memory로 동작한다.
 #    username: sa
 #    password:
 #    driver-class-name: org.h2.Driver
