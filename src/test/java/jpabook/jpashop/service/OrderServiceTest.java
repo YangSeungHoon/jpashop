@@ -35,6 +35,7 @@ public class OrderServiceTest {
 
     @Test
     public void 상품주문() throws Exception {
+
         //given
         Member member = createMember();
 
@@ -44,6 +45,7 @@ public class OrderServiceTest {
         //when
 
         Long orderId = orderService.order(member.getId(),book.getId(),orderCount);
+
         //then
         Order getOrder = orderRepository.findOne(orderId);
 
