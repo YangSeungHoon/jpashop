@@ -10,6 +10,8 @@ import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
 import javax.validation.constraints.NotEmpty;
+import java.util.List;
+import java.util.stream.Collectors;
 
 //@Controller
 //@ResponseBody
@@ -18,6 +20,36 @@ import javax.validation.constraints.NotEmpty;
 public class MemberApiController {
 
     private final MemberService memberService;
+
+
+    //이렇게 직접 Entity를 반환하는 방법은 좋은 방법이 아니다.  더하여 이렇게 Array를 그대로 반환하면 스팩을 확장 할 수도 없다.
+    @GetMapping("/api/v1/members")
+    public List<Member> membersV1() {
+        return memberService.findMembers();
+    }
+
+    @GetMapping("/api/v2/members")
+    public Result membersV2() {
+        List<Member> findMembers = memberService.findMembers();
+        List<MemberDto> collect = findMembers.stream()
+                .map(m -> new MemberDto(m.getName()))
+                .collect(Collectors.toList());
+
+        return new Result(collect);
+    }
+
+    @Data
+    @AllArgsConstructor
+    static class Result<T>{
+        private T data;
+    }
+
+    @Data
+    @AllArgsConstructor
+    static class MemberDto {
+        private String name;
+    }
+
 
 
     //Member에서 name에다가 @NotEmpty를 설정해놨는데, 이 녀석이 javax.validation인데 여기 아래에 @Valid가 붙어있으면
