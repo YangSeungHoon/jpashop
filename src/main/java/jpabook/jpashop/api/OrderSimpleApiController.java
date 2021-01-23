@@ -75,6 +75,19 @@ public class OrderSimpleApiController {
         return result;
     }
 
+    //fetch join을 사용해서 성능 최적화
+    //이렇게 하면 쿼리 1 번에 내가 필요한 모든 것을 다 가져와서 끝낸다.
+    // 심지어 쿼리를 바로 날리기 때문에 지연로딩 걱정이 없다.
+    @GetMapping("/api/v3/simple-orders")
+    public List<SimpleOrderDto> ordersV3() {
+        List<Order> orders = orderRepository.findAllWithMemberDelivery();
+        List<SimpleOrderDto> result = orders.stream()
+                .map(o -> new SimpleOrderDto(o))
+                .collect(Collectors.toList());
+
+        return result;
+    }
+
     @Data
     static class SimpleOrderDto {
         private Long orderId;
