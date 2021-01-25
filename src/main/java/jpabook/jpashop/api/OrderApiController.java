@@ -47,6 +47,15 @@ public class OrderApiController {
         return collect;
     }
 
+    @GetMapping("/api/v3/orders")
+    public List<OrderDto> ordersV3() {
+        List<Order> orders = orderRepository.findAllWithItem();
+        List<OrderDto> result = orders.stream()
+                .map(o -> new OrderDto(o))
+                .collect(Collectors.toList());
+        return result;
+    }
+
     @Data
     static class OrderDto {
 
@@ -62,6 +71,7 @@ public class OrderApiController {
             orderId = order.getId();
             name = order.getMember().getName();
             orderDate= order.getOrderDate();
+            orderStatus =order.getStatus();
             address = order.getDelivery().getAddress();
 
 //            // 이렇게 해주지 않으면 이 orderItems가 Entity라서 값이 null로 나온다.
