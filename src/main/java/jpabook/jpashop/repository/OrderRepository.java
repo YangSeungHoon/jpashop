@@ -101,6 +101,7 @@ public class OrderRepository {
     }
 
 
+
     public List<Order> findAllWithMemberDelivery() {
 
         return em.createQuery(
@@ -145,5 +146,20 @@ public class OrderRepository {
     // 왜냐하면 디비 입장에서 보면 일대다 관계를 Join하는 순간 앞서 설명한대로 데이터가 늘어난다. 그래서 페이징처리의 그 기준도 달라지고
     // 더하여 하이버네이트가 경고 로그를 남기면서 모든 데이터를 DB에서 읽어오고, 메모리에서 페이징 해버린다. 그래서 out of memory의 위험이있다.
     // 참고로, 컬렉션 패치 조인은 1개만 사용해야한다. 왜냐하면 컬렉션이 둘 이상에 패치 조인을 사용하면 데이터가 부정합하게 조회될 수 있다.
+
+
+
+    //페이지에 영향을 주지 않는 xToOne의 관계는 그냥 다 패치 조인으로 가져온다.
+    //페이징 처리는 Mapping쪽에서 @RequestParam으로 값을 받아와서 넣어주었다.
+    public List<Order> findAllWithMemberDelivery(int offset,int limit) {
+
+        return em.createQuery(
+                "select o from Order o" +
+                        " join fetch o.member m" +
+                        " join fetch o.delivery d", Order.class)
+                .setFirstResult(offset)
+                .setMaxResults(limit)
+                .getResultList();
+    }
 
 }

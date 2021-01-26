@@ -4,6 +4,7 @@ import lombok.AccessLevel;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+import org.hibernate.annotations.BatchSize;
 
 import javax.persistence.*;
 import java.time.LocalDateTime;
@@ -25,7 +26,10 @@ public class Order {
     private Member member;
 
 
-    @OneToMany(mappedBy="order",cascade = CascadeType.ALL)
+
+   // @BatchSize(size=1000) //application.yml에다가 설정한거는 전역으로 설정한거고 이 컬렉션 하나만 정하고 싶으면 이렇게 하면된다.
+    // 추가적으로 toOne관계에서는 그 해당 Entity클래스 위다가 설정해줘야한다.
+   @OneToMany(mappedBy="order",cascade = CascadeType.ALL)
     private List<OrderItem> orderItems = new ArrayList<>();
 
     @OneToOne(fetch= FetchType.LAZY,cascade = CascadeType.ALL)
